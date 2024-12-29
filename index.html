@@ -5,76 +5,241 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rhythm's Birthday Party</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Geo:ital@1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Geo:ital@1&family=Poppins:wght@400;600&display=swap');
 
-body {
-    background-color: #333;
-    color: #fff;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-#time {
-    font-family: "Audiowide", serif;
-    font-weight: 400;
-    font-style: normal;
-}
+        :root {
+            --background-1: #0f172a;
+            --background-2: #1e293b;
+            --color-primary: #4f46e5;
+            --color-secondary: #7c3aed;
+            --color-accent: #38bdf8;
+            --text-color: #ffffff;
+        }
 
-#dess {
-    font-family: "Geo", serif;
-    font-weight: 400;
-    font-style: normal;
-}
+        body {
+            background: linear-gradient(135deg, var(--background-1), var(--background-2));
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body), sans-serif;
+            padding: 20px;
+        }
 
-#info {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-    font-family: "Audiowide", serif;
-    font-weight: 400;
-    font-style: normal
-}
+        .container {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        #time {
+            font-family: var(--font-heading), sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient 3s ease infinite;
+        }
+
+        #dess {
+            font-family: var(--font-subheading), sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--color-accent);
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+            margin: 2rem 0;
+        }
+
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            color: white;
+            font-family: var(--font-body), sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        #info-display {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 1rem;
+            min-height: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h4 {
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @media (max-width: 600px) {
+            #time { font-size: 1.8rem; }
+            #dess { font-size: 1.4rem; }
+            button { padding: 0.6rem 1.2rem; }
+            .container { padding: 1rem; }
+        }
     </style>
 </head>
 <body>
-    <div>
-    <h1 id="time"></h1>
-    <h2 id="dess">Until Rhythm's Birthday</h2>
+    <div class="container">
+        <h1 id="time"></h1>
+        <h2 id="dess"></h2>
         <hr>
-    <div id="info">
-        INFO:
-        <button>VENUE</button>
-        <button>MUSIC</button>
+        <div class="info-section">
+            <div class="button-grid" id="button-container">
+                <!-- Buttons will be dynamically added here -->
+            </div>
+            <div id="info-display">Click any button above for party details!</div>
+        </div>
     </div>
-    </div>
-
+    <script src="party-config.js"></script>
     <script>
+    
 
-function updateCountdown() {
-    const targetDate = new Date('2025-01-01T08:00:00');
-    const now = new Date();
-    const diff = targetDate - now;
+        // Set CSS variables from theme config
+        document.documentElement.style.setProperty('--color-primary', partyConfig.theme.colors.primary);
+        document.documentElement.style.setProperty('--color-secondary', partyConfig.theme.colors.secondary);
+        document.documentElement.style.setProperty('--color-accent', partyConfig.theme.colors.accent);
+        document.documentElement.style.setProperty('--background-1', partyConfig.theme.colors.background.gradient1);
+        document.documentElement.style.setProperty('--background-2', partyConfig.theme.colors.background.gradient2);
+        document.documentElement.style.setProperty('--font-heading', partyConfig.theme.fonts.heading);
+        document.documentElement.style.setProperty('--font-subheading', partyConfig.theme.fonts.subheading);
+        document.documentElement.style.setProperty('--font-body', partyConfig.theme.fonts.body);
 
-    if (diff <= 0) {
-        document.getElementById('time').innerText = "Happy New Year!";
-        clearInterval(timer);
-        return;
-    }
+        // Set event name
+        document.getElementById('dess').innerText = partyConfig.event.name;
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        // Create buttons dynamically
+        const buttonContainer = document.getElementById('button-container');
+        partyConfig.info.forEach(info => {
+            const button = document.createElement('button');
+            button.innerText = info.ButtonName;
+            button.onclick = () => showInfo(info);
+            buttonContainer.appendChild(button);
+        });
 
-    document.getElementById('time').innerText = `${days} days ${hours} hours ${minutes} mins ${seconds} secs`;
-}
+        function showInfo(info) {
+            const display = document.getElementById('info-display');
+            let content = '';
 
-const timer = setInterval(updateCountdown, 1000);
-updateCountdown();
+            switch(info.type) {
+                case 'Text':
+                    content = `<h3>${info.ButtonName}</h3><p>${info.content}</p>`;
+                    break;
+                case 'cards':
+                    content = `
+                        <h3>${info.ButtonName}</h3>
+                        <div class="card-grid">
+                            ${info.content.map(card => `
+                                <div class="card">
+                                    <h4>${card.title}</h4>
+                                    <p>${card.time}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+                case 'Iframe':
+                    content = `
+                        <h3>${info.ButtonName}</h3>
+                        <iframe style="border-radius:12px" src="${info.content}?utm_source=generator&theme=0" 
+                                width="100%" height="352" frameBorder="0" allowfullscreen 
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+                        </iframe>
+                    `;
+                    break;
+            }
+            display.innerHTML = content;
+        }
 
+        function updateCountdown() {
+            const targetDate = new Date(partyConfig.event.date);
+            const now = new Date();
+            const diff = targetDate - now;
 
+            if (diff <= 0) {
+                document.getElementById('time').innerText = partyConfig.event.TextOnDateCome;
+                clearInterval(timer);
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('time').innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        const timer = setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
