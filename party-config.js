@@ -34,11 +34,11 @@ const partyConfig = {
             content: [
                 {
                     title: "Breakfast",
-                    time: "Pizza, juice, sandwich???"
+                    time: "Nothing go away"
                 },
                 {
                     title: "Lunch",
-                    time: "Pizza!!!"
+                    time: " Pasta"
                 },
                 {
                     title: "Dinner",
@@ -46,7 +46,7 @@ const partyConfig = {
                 },
                 {
                     title: "Snacks - always",
-                    time: "Chips, Cold Drinks, Juice, etc"
+                    time: "Chips,<br> Chocolates,<br>chocolate Biscuit,<br> small bottles of juice<br><br> (you aint getting more btw, very healthy option)"
                 }
             ]
         },
