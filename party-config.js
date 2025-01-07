@@ -2,7 +2,7 @@ const partyConfig = {
     event: {
         name: "Until Rhythm's Birthday Party!",
         TextOnDateCome: "Happy Birthday Rhythm!",
-        date: "2025-01-01T08:00:00",
+        date: "2026-01-01T08:00:00",
     },
     info: [
         {
